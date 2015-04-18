@@ -1,2 +1,0 @@
-# greydog
-RabbitMQ Customer
