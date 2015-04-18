@@ -1,0 +1,16 @@
+{application, grey_dog,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, [grey_dog_sup]},
+  {included_applications,[mysql,rabbit_common,amqp_client]},
+  {modules, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+	          crypto,
+		  xmerl
+                 ]},
+  {mod, { grey_dog_app, []}},
+  {env, []}
+ ]}.
