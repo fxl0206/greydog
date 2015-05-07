@@ -4,12 +4,12 @@
 -export([save_db/1]).
 main() ->
     {ok, Connection} =
-        amqp_connection:start(#amqp_params_network{username = <<"admin">>,password = <<"admin">>,host = "localhost"}),
+        amqp_connection:start(#amqp_params_network{username = <<"admin">>,password = <<"admin">>,host = "123.56.90.92"}),
     {ok, Channel} = amqp_connection:open_channel(Connection),
 
     amqp_channel:call(Channel, #'queue.declare'{queue = <<"wx_msg">>,durable = true}),
     io:format(" [*] Waiting for messages. To exit press CTRL+C~n"),
-
+    amqp_channel:call(Channel, #'basic.qos'{prefetch_count = 1}),
     amqp_channel:subscribe(Channel, #'basic.consume'{queue = <<"wx_msg">>,
                                                      no_ack = true}, self()),
     receive
