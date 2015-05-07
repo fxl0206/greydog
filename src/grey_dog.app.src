@@ -8,9 +8,9 @@
   {applications, [
                   kernel,
                   stdlib,
-	          crypto,
-		  xmerl
-                 ]},
+                  inets,
+	                crypto,
+		              xmerl]},
   {mod, { grey_dog_app, []}},
   {env, []}
  ]}.

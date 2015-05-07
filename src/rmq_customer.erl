@@ -7,10 +7,10 @@ main() ->
         amqp_connection:start(#amqp_params_network{host = "localhost"}),
     {ok, Channel} = amqp_connection:open_channel(Connection),
 
-    amqp_channel:call(Channel, #'queue.declare'{queue = <<"hello">>}),
+    amqp_channel:call(Channel, #'queue.declare'{queue = <<"wx_msg">>}),
     io:format(" [*] Waiting for messages. To exit press CTRL+C~n"),
 
-    amqp_channel:subscribe(Channel, #'basic.consume'{queue = <<"hello">>,
+    amqp_channel:subscribe(Channel, #'basic.consume'{queue = <<"wx_msg">>,
                                                      no_ack = true}, self()),
     receive
         #'basic.consume_ok'{} -> ok
@@ -27,7 +27,7 @@ loop(Channel) ->
     end.
 save_db(Body)->
 	{FromUserName,ToUserName,Content}=xml_parse(binary_to_list(Body)),
-        Sql="insert into wx_msg(msgid,type,content,fuser,tuser,create_time) values('1','text','"++Content++"','"++FromUserName++"','"++ToUserName++"',now())",
+        Sql="insert into ts_wx_msg(msgid,type,content,fuser,tuser,create_time) values('1','text','"++Content++"','"++FromUserName++"','"++ToUserName++"',now())",
         mysql:fetch(conn,unicode:characters_to_binary(Sql)),
 	ok.
 %weixin xml parse
