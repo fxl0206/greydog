@@ -29,6 +29,8 @@ save_db(Body,Channel,Tag)->
 	{FromUserName,ToUserName,Content}=xml_parse(binary_to_list(Body)),
         Sql="insert into ts_wx_msg(msgid,type,content,fuser,tuser,create_time) values('1','text','"++Content++"','"++FromUserName++"','"++ToUserName++"',now())",
         mysql:fetch(conn,unicode:characters_to_binary(Sql)),
+        io:format("~n=========delivery_tag is : ~p=============~n",[Tag]),
+        timer:sleep(20),
         amqp_channel:call(Channel,#'basic.ack'{delivery_tag = Tag}),
 	ok.
 %weixin xml parse
